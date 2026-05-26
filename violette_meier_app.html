@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Violette Meier — Social Media Strategy Hub</title>
+<style>
+  * { box-sizing: border-box; }
+  :root {
+    --bg: #FAF8F3;
+    --surface: #FFFFFF;
+    --surface-2: #F1EFE8;
+    --text: #2C2C2A;
+    --text-secondary: #5F5E5A;
+    --text-tertiary: #888780;
+    --border: rgba(0,0,0,0.08);
+    --border-strong: rgba(0,0,0,0.15);
+    --accent: #3C3489;
+    --accent-light: #EEEDFE;
+    --ig: #D4537E;
+    --ig-bg: #FBEAF0;
+    --ig-text: #72243E;
+    --tt: #1D9E75;
+    --tt-bg: #E1F5EE;
+    --tt-text: #085041;
+    --fb: #185FA5;
+    --fb-bg: #E6F1FB;
+    --fb-text: #0C447C;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1A1A18;
+      --surface: #25251F;
+      --surface-2: #2C2C2A;
+      --text: #F1EFE8;
+      --text-secondary: #B4B2A9;
+      --text-tertiary: #888780;
+      --border: rgba(255,255,255,0.08);
+      --border-strong: rgba(255,255,255,0.15);
+      --accent-light: #26215C;
+    }
+  }
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 1.25rem; }
+  header {
+    background: var(--surface);
+    border-bottom: 0.5px solid var(--border);
+    padding: 1.25rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .avatar {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--accent-light);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 17px;
+    font-family: Georgia, serif;
+  }
+  .brand h1 { margin: 0; font-size: 18px; font-weight: 500; }
+  .brand p { margin: 2px 0 0; font-size: 13px; color: var(--text-secondary); font-style: italic; }
+  .mode-toggle {
+    background: transparent;
+    border: 0.5px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--text);
+    font-family: inherit;
+  }
+  .mode-toggle:hover { background: var(--surface-2); }
+  nav.tabs {
+    display: flex; gap: 0;
+    border-bottom: 0.5px solid var(--border);
+    overflow-x: auto;
+    margin-bottom: 2rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tab {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 12px 18px;
+    font-size: 14px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    font-family: inherit;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active {
+    color: var(--text);
+    border-bottom-color: var(--accent);
+    font-weight: 500;
+  }
+  .panel { display: none; padding-bottom: 4rem; }
+  .panel.active { display: block; }
+  h2 {
+    font-size: 22px;
+    font-weight: 500;
+    margin: 0 0 0.5rem;
+    color: var(--text);
+  }
+  h3 {
+    font-size: 17px;
+    font-weight: 500;
+    margin: 1.5rem 0 0.75rem;
+    color: var(--text);
+  }
+  .lede { color: var(--text-secondary); font-size: 14px; margin: 0 0 1.5rem; max-width: 700px; }
+  .grid { display: grid; gap: 14px; }
+  .grid-3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .grid-4 { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+  .card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+  }
+  .card.clickable { cursor: pointer; transition: background 0.15s; }
+  .card.clickable:hover { background: var(--surface-2); }
+  .metric {
+    background: var(--surface-2);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+  }
+  .metric-label { font-size: 12px; color: var(--text-secondary); margin: 0 0 4px; }
+  .metric-value { font-size: 22px; font-weight: 500; margin: 0; color: var(--text); }
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 6px;
+    margin: 2px 4px 2px 0;
+  }
+  .tag-ig { background: var(--ig-bg); color: var(--ig-text); }
+  .tag-tt { background: var(--tt-bg); color: var(--tt-text); }
+  .tag-fb { background: var(--fb-bg); color: var(--fb-text); }
+  .tag-neutral { background: var(--surface-2); color: var(--text-secondary); }
+  .icon-ig { color: var(--ig); }
+  .icon-tt { color: var(--tt); }
+  .icon-fb { color: var(--fb); }
+  .pill-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+  .pill-row .platform { display: flex; align-items: center; gap: 8px; font-weight: 500; }
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+  }
+  .info-table td {
+    padding: 8px 0;
+    font-size: 14px;
+    border-bottom: 0.5px solid var(--border);
+    vertical-align: top;
+  }
+  .info-table td:first-child {
+    color: var(--text-secondary);
+    width: 140px;
+    padding-right: 16px;
+  }
+  ul.tactics { padding-left: 22px; margin: 0; }
+  ul.tactics li { font-size: 14px; margin-bottom: 8px; line-height: 1.6; }
+  .growth-callout {
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .controls {
+    background: var(--surface-2);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    margin-bottom: 1.5rem;
+  }
+  .control-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+  label { display: block; font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; }
+  select, input[type="number"], button {
+    width: 100%;
+    padding: 9px 12px;
+    border: 0.5px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 14px;
+    font-family: inherit;
+  }
+  button { cursor: pointer; transition: background 0.15s; }
+  button:hover { background: var(--surface-2); }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--accent-light);
+    border-color: var(--accent);
+    margin-top: 12px;
+    font-weight: 500;
+  }
+  .btn-primary:hover { opacity: 0.92; background: var(--accent); }
+  .post {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    margin-bottom: 16px;
+  }
+  .post-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
+  .post-platform { display: flex; align-items: center; gap: 8px; font-weight: 500; font-size: 14px; }
+  .post-goal { font-size: 11px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.5px; }
+  .post-hook { font-size: 16px; font-weight: 500; margin: 0 0 12px; line-height: 1.5; }
+  .post-body { font-size: 15px; line-height: 1.7; margin: 0 0 12px; white-space: pre-line; }
+  .post-hashtags { font-size: 12px; color: var(--fb); margin: 0 0 12px; line-height: 1.6; }
+  .post-visual {
+    background: var(--surface-2);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    margin-bottom: 12px;
+  }
+  .post-visual .label { font-size: 11px; color: var(--text-secondary); margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .post-visual .text { font-size: 13px; margin: 0; line-height: 1.6; }
+  .post-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .post-actions button { font-size: 12px; padding: 6px 12px; width: auto; }
+  .back-btn { margin-bottom: 1.5rem; font-size: 13px; padding: 6px 12px; width: auto; display: inline-flex; align-items: center; gap: 6px; }
+  .calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+  }
+  .calendar-table td {
+    padding: 10px 14px;
+    border-bottom: 0.5px solid var(--border);
+    font-size: 14px;
+  }
+  .calendar-table td:first-child {
+    width: 70px;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+  .real-inputs { display: none; }
+  .real-inputs.visible { display: block; }
+  .real-inputs .control-grid input { padding: 7px 10px; font-size: 13px; }
+  .rec {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin-bottom: 10px;
+  }
+  .rec-tag { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 6px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .rec h4 { margin: 0 0 4px; font-size: 14px; font-weight: 500; }
+  .rec p { margin: 0; font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+  .chart-wrap { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 20px; margin: 1rem 0 1.5rem; }
+  .bar-row { display: grid; grid-template-columns: 100px 1fr 50px; gap: 12px; align-items: center; margin-bottom: 14px; font-size: 13px; }
+  .bar-track { background: var(--surface-2); height: 24px; border-radius: 6px; overflow: hidden; position: relative; }
+  .bar-fill { height: 100%; border-radius: 6px; transition: width 0.4s ease; }
+  .footer {
+    text-align: center;
+    padding: 2rem 1rem 3rem;
+    color: var(--text-tertiary);
+    font-size: 12px;
+    border-top: 0.5px solid var(--border);
+    margin-top: 3rem;
+  }
+  .footer a { color: var(--text-secondary); }
+  .copy-toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: var(--accent); color: var(--accent-light);
+    padding: 10px 20px; border-radius: var(--radius-sm);
+    font-size: 13px; opacity: 0; pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 200;
+  }
+  .copy-toast.show { opacity: 1; }
+  /* Icons (CSS-only social glyphs) */
+  .icon { display: inline-block; width: 18px; height: 18px; vertical-align: middle; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container header-inner">
+    <div class="brand">
+      <div class="avatar">VM</div>
+      <div>
+        <h1>Violette L. Meier — strategy hub</h1>
+        <p>Every book. Every audience. Every platform.</p>
+      </div>
+    </div>
+    <button class="mode-toggle" id="modeToggle">Demo mode</button>
+  </div>
+</header>
+
+<div class="container">
+  <nav class="tabs" role="tablist">
+    <button class="tab active" data-tab="library">Book library</button>
+    <button class="tab" data-tab="content">Content studio</button>
+    <button class="tab" data-tab="calendar">Content ideas</button>
+    <button class="tab" data-tab="analytics">Analytics</button>
+    <button class="tab" data-tab="about">About this app</button>
+  </nav>
+
+  <!-- LIBRARY -->
+  <section class="panel active" id="tab-library">
+    <h2>Her books, her readers</h2>
+    <p class="lede">Click any book to see its target audience, the readers who'll love it, and the specific tactics that move copies.</p>
+    <div class="grid grid-3" id="bookGrid"></div>
+    <div id="bookDetail" style="display: none;"></div>
+  </section>
+
+  <!-- CONTENT STUDIO -->
+  <section class="panel" id="tab-content">
+    <h2>Content studio</h2>
+    <p class="lede">Pick a book, platform, and goal. Get a ready-to-post draft with hook, caption, hashtags, and visual direction.</p>
+    <div class="controls">
+      <div class="control-grid">
+        <div>
+          <label>Book</label>
+          <select id="bookSelect"></select>
+        </div>
+        <div>
+          <label>Platform</label>
+          <select id="platformSelect">
+            <option value="instagram">Instagram</option>
+            <option value="tiktok">TikTok</option>
+            <option value="facebook">Facebook</option>
+          </select>
+        </div>
+        <div>
+          <label>Goal</label>
+          <select id="goalSelect">
+            <option value="awareness">Build awareness</option>
+            <option value="sales">Drive sales</option>
+            <option value="engage">Spark conversation</option>
+            <option value="event">Promote event</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn-primary" id="generateBtn">Generate post</button>
+    </div>
+    <div id="postOutput"></div>
+  </section>
+
+  <!-- CALENDAR -->
+  <section class="panel" id="tab-calendar">
+    <h2>Content ideas & cadence</h2>
+    <p class="lede">What to post on each platform and how often, plus a weekly theme planner that turns a blank calendar into a year of content.</p>
+
+    <h3>Posting cadence by platform</h3>
+    <div class="grid grid-3">
+      <div class="card">
+        <div class="pill-row"><span class="platform icon-ig">●</span><strong>Instagram</strong> · 4–5 posts/week</div>
+        <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.8;">
+          <li>Reels: 30-sec book teasers with atmospheric audio</li>
+          <li>Carousels: character intros, world lore, quotes</li>
+          <li>Behind-the-scenes writing process</li>
+          <li>Aesthetic cover flatlays</li>
+          <li>Stories: polls, sneak peeks, reading progress</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="pill-row"><span class="platform icon-tt">●</span><strong>TikTok</strong> · 5–7 posts/week</div>
+        <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.8;">
+          <li>"POV: you found this book" hooks</li>
+          <li>Reading her own scenes (face cam)</li>
+          <li>Folklore explainers (haints, conjure, angels)</li>
+          <li>"Books like ___" comp recommendations</li>
+          <li>Day-in-the-life author content</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="pill-row"><span class="platform icon-fb">●</span><strong>Facebook</strong> · 3–4 posts/week</div>
+        <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.8;">
+          <li>Long-form writing reflections, faith and craft</li>
+          <li>Event announcements with RSVP CTAs</li>
+          <li>Live readings and Q&A sessions</li>
+          <li>Reader testimonials and reviews</li>
+          <li>Group engagement in ATL & SFF communities</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Weekly theme planner</h3>
+    <div class="card">
+      <table class="calendar-table">
+        <tr><td>Mon</td><td><span class="tag" style="background: var(--accent-light); color: var(--accent);">Motivation</span> Inspirational axiom from her devotionals</td></tr>
+        <tr><td>Tue</td><td><span class="tag tag-ig">Teaser Tuesday</span> Book excerpt or character spotlight</td></tr>
+        <tr><td>Wed</td><td><span class="tag tag-tt">World-building</span> Folklore, hoodoo lore, mythology behind a story</td></tr>
+        <tr><td>Thu</td><td><span class="tag" style="background: #FAECE7; color: #712B13;">Throwback</span> Older book spotlight or art piece</td></tr>
+        <tr><td>Fri</td><td><span class="tag" style="background: #FAEEDA; color: #633806;">Behind-the-scenes</span> Writing process, art studio, daily life</td></tr>
+        <tr><td>Sat</td><td><span class="tag tag-fb">Community</span> Reader spotlight, fan art, Q&A</td></tr>
+        <tr><td>Sun</td><td><span class="tag tag-neutral">Reflection</span> Spiritual post, faith and craft</td></tr>
+      </table>
+    </div>
+
+    <h3>Three rules that apply to every book</h3>
+    <div class="grid grid-3" style="margin-bottom: 2rem;">
+      <div class="card">
+        <h4 style="margin: 0 0 8px; font-size: 15px;">1. Match book to platform</h4>
+        <p style="margin: 0; font-size: 13px; color: var(--text-secondary); line-height: 1.6;">Angel Crush Saga belongs on BookTok. Oracles belongs in Facebook book clubs. The 366 axioms belong on Pinterest. Don't spread thin.</p>
+      </div>
+      <div class="card">
+        <h4 style="margin: 0 0 8px; font-size: 15px;">2. Lead with low-friction books</h4>
+        <p style="margin: 0; font-size: 13px; color: var(--text-secondary); line-height: 1.6;">A new reader is more likely to spend $10 than $40. Use Preternatural Haze and the poetry books to acquire readers, then upsell into the saga.</p>
+      </div>
+      <div class="card">
+        <h4 style="margin: 0 0 8px; font-size: 15px;">3. Repurpose ruthlessly</h4>
+        <p style="margin: 0; font-size: 13px; color: var(--text-secondary); line-height: 1.6;">One core idea per week — film once for TikTok, edit into IG reel, write long-form on Facebook. Three platforms, one hour.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANALYTICS -->
+  <section class="panel" id="tab-analytics">
+    <h2>Analytics & recommendations</h2>
+    <p class="lede">Performance snapshot per platform. Tap <strong>Real numbers</strong> in the header to swap demo data for Violette's actual figures.</p>
+
+    <div class="real-inputs card" id="realInputs" style="margin-bottom: 1.5rem;">
+      <h3 style="margin: 0 0 12px;">Enter actual numbers</h3>
+      <div class="control-grid">
+        <div><label>IG followers</label><input type="number" id="ig-f" value="1240"></div>
+        <div><label>IG engagement %</label><input type="number" step="0.1" id="ig-e" value="2.4"></div>
+        <div><label>TikTok followers</label><input type="number" id="tt-f" value="380"></div>
+        <div><label>TikTok engagement %</label><input type="number" step="0.1" id="tt-e" value="5.1"></div>
+        <div><label>Facebook followers</label><input type="number" id="fb-f" value="4850"></div>
+        <div><label>Facebook engagement %</label><input type="number" step="0.1" id="fb-e" value="1.2"></div>
+      </div>
+      <button class="btn-primary" id="applyReal" style="margin-top: 12px;">Apply numbers</button>
+    </div>
+
+    <div class="grid grid-3" id="metricsGrid"></div>
+
+    <h3>Engagement rate by platform</h3>
+    <div class="chart-wrap" id="chartWrap"></div>
+
+    <h3>Recommendations</h3>
+    <div id="recsList"></div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="panel" id="tab-about">
+    <h2>About this app</h2>
+    <p class="lede">A self-contained strategy tool built specifically for Violette L. Meier's catalog.</p>
+
+    <h3>What's inside</h3>
+    <ul class="tactics">
+      <li>All 16 books in her catalog with full audience profiles, growth tactics, and platform recommendations</li>
+      <li>192 ready-to-post drafts (16 books × 3 platforms × 4 goals) with hook, caption, hashtags, and visual direction</li>
+      <li>Posting cadence and weekly content theme planner</li>
+      <li>Analytics dashboard with demo data + a toggle for her real numbers, with automatic recommendations</li>
+    </ul>
+
+    <h3>How to use it</h3>
+    <ul class="tactics">
+      <li><strong>Save it.</strong> This is a single HTML file — bookmark it, save it to her phone home screen, email it, or host it on a free service like Netlify</li>
+      <li><strong>Open it in any browser.</strong> No login. No installation. Works on desktop and mobile.</li>
+      <li><strong>Generate a post.</strong> Pick book, platform, goal. Copy the caption. Paste into IG/TikTok/FB. Done.</li>
+      <li><strong>Plug in her real numbers</strong> when she has them — the dashboard recommendations adjust automatically.</li>
+    </ul>
+
+    <h3>What it doesn't do (and why)</h3>
+    <p style="font-size: 14px; line-height: 1.7;">It doesn't pull live data from Instagram, TikTok, or Facebook. Those APIs require approved Meta and TikTok developer accounts, business verification, and OAuth flows — none of which can live inside a single HTML file. If she wants real-time data, the next step is a hosted web app with backend infrastructure. This file is the strategy brain; pair it with her actual posting habits and she has a complete system.</p>
+
+    <h3>Built around her brand</h3>
+    <p style="font-size: 14px; line-height: 1.7;">Every audience profile, post template, and hashtag was researched from her website (violettemeier.com), her book synopses, and the genres she writes in. Sadie Covington, Ma Lily, Tovah, Zayashariya, Peaches the boo hag — they're all in here by name. This isn't a generic author template. It's hers.</p>
+  </section>
+</div>
+
+<div class="footer">
+  Built for Violette L. Meier · violettemeier.com
+</div>
+
+<div class="copy-toast" id="copyToast">Copied to clipboard</div>
+
+<script>
+const BOOKS = {"angel-crush-saga": {"title": "Angel Crush Saga (Box Set)", "genre": "Paranormal romance trilogy", "price": "$40", "tagline": "Three books. Forbidden love. Cosmic stakes.", "synopsis": "The complete saga: Sadie Covington becomes the obsession of a celestial stalker. Across three novels, heaven, hell, and earth fight over one woman who never asked to be chosen.", "audience": {"age": "25–40", "skew": "78% women", "sweetSpot": "Black women who want paranormal romance with theological depth", "psycho": "Loves slow-burn forbidden romance, faith-based fantasy, fierce heroines, multi-book commitments", "comps": "Tomi Adeyemi, Jewell Parker Rhodes, Beverly Jenkins (paranormal), Tananarive Due", "platforms": "Instagram, TikTok, Facebook groups"}, "hashtags": "#AngelCrushSaga #BlackParanormalRomance #ForbiddenLove #FallenAngels #BlackBookstagram #BlackBookTok #IndieAuthor", "tactics": ["Box set price ($40 vs $45 individually) is the lead offer — always anchor on \"save $5\"", "BookTok ship-war content: \"Team angel vs team archfiend\" drives massive comments", "Series binge angle — \"you'll lose a weekend\" is the universal saga pitch", "Pin a 60-second \"start here\" book-one trailer to the top of every profile", "Pitch to Black SFF book clubs as a 3-month read"], "growth": "This is the flagship. Run a 30-day TikTok push: daily 30-second videos that each tease one character, one ship, one twist. Track which character's video performs best — that's your gateway drug for new readers.", "posts": {"instagram": {"awareness": {"hook": "Three books. One forbidden love. Endless consequences.", "body": "The Angel Crush Saga is paranormal romance with theological reckoning. Slow-burn. High stakes. Black women at the center of a cosmic story.\n\nStart with book one. Stay for all three.\n\n📖 Box set $40 at violettemeier.com.", "visual": "Flatlay of all three covers with feathers, dried roses, dark candle."}, "sales": {"hook": "The full saga is $40. That's $5 off the individual price.", "body": "All three Angel Crush novels in one shipment. Hundreds of pages of forbidden love, cosmic stakes, and the kind of slow-burn that wrecks readers.\n\n🛒 violettemeier.com", "visual": "Hand holding the box set against natural light."}, "engage": {"hook": "Team fallen angel or team archangel? Choose carefully — they're listening.", "body": "Drop your pick in the comments. No wrong answers, only confessions.\n\nHaven't read the saga yet? Start at violettemeier.com.", "visual": "Split-screen graphic: dark vs light wing, \"pick a side\" overlay."}, "event": {"hook": "Atlanta — meet me in person.", "body": "I'm signing the Angel Crush Saga and reading book one. Bring your battered copies and your favorite ships.\n\n📍 [venue]\n🗓 [date] | 🕖 [time]\n\nRSVP at violettemeier.com/events.", "visual": "Author photo with event details in elegant serif type."}}, "tiktok": {"awareness": {"hook": "POV: the angel watching over you has been in love with you for a thousand years.", "body": "Voiceover: \"She thought she was being protected. She was being chosen.\" Cut between all three covers.", "visual": "30-sec reel, eerie orchestral audio, slow zoom on book covers."}, "sales": {"hook": "Stop scrolling. This Black-authored angel romance trilogy is criminally underread.", "body": "Talk to camera: three books, slow-burn forbidden love, a heroine who saves herself. If you loved Fallen but wanted depth and Black girls at the center, this is your series. Link in bio.", "visual": "Face-cam with books on the shelf behind, bold captions."}, "engage": {"hook": "Tell me your favorite forbidden romance trope and I'll tell you which Angel Crush character would fall for you.", "body": "Comment your trope. I'm reading every reply.", "visual": "Face-cam, conspiratorial tone, books in frame."}, "event": {"hook": "Atlanta BookTok — live reading this Friday.", "body": "I'll read the scene that breaks everyone. Sign your books. Answer your questions. Link in bio to RSVP.", "visual": "Face-cam announcing details with text overlay."}}, "facebook": {"awareness": {"hook": "Some loves are forbidden because someone is afraid of what they could become.", "body": "The Angel Crush Saga is three books of divine rebellion, mortal love, and the cost of choosing each other anyway. For readers who want their paranormal with theology, history, and Black women at the heart of a cosmic story.\n\nStart with Angel Crush. violettemeier.com.\n\nWhat's the last book that kept you up too late?", "visual": "High-res photo of all three covers laid out."}, "sales": {"hook": "The complete Angel Crush Saga — $40 for all three novels.", "body": "All three books in one shipment. Signed copies on request — just message me. violettemeier.com.", "visual": "Box set with handwritten \"thank you\" note."}, "engage": {"hook": "Can love that breaks every rule still be holy?", "body": "That's the central question of Angel Crush. I want to hear what you think.", "visual": "Single evocative quote from book one."}, "event": {"hook": "Atlanta friends — come see me in person.", "body": "In-person reading and signing for the Angel Crush Saga on [date] at [venue]. Q&A, signed copies, conversation. Click \"Going\" if you can make it. Share with a reader who needs this series.", "visual": "Event flyer with author photo and full details."}}}}, "angel-crush": {"title": "Angel Crush (Book 1)", "genre": "Paranormal thriller / romance", "price": "$15", "tagline": "Sadie thought her life was perfect. The angel watching her disagreed.", "synopsis": "Sadie Covington is living a perfect life until a celestial stalker forces her to become the bearer of bad news. The age-old battle of good and evil reignites through one woman.", "audience": {"age": "25–40", "skew": "80% women", "sweetSpot": "Paranormal romance readers who haven't discovered Black-led SFF", "psycho": "Wants stakes that feel cosmic, romance that feels dangerous, a heroine who saves herself", "comps": "Lauren Kate's Fallen readers who want Black women centered, Tananarive Due", "platforms": "TikTok, Instagram"}, "hashtags": "#AngelCrush #FallenAngelRomance #BlackBookTok #ParanormalThriller #Bookstagram", "tactics": ["Sell it as the gateway book — \"start here, then binge the saga\"", "Quote graphics from Sadie's strongest scenes drive saves on IG", "\"Celestial stalker\" is the hook — nobody markets this trope", "Run a TikTok series: \"Red flags from a man whose wings are showing\""], "growth": "Position as the entry point into Violette's universe. Every new reader should meet Sadie first. Run a $5 promo on book one only during a 14-day window each quarter to drive saga starts.", "posts": {"instagram": {"awareness": {"hook": "Sadie thought her life was perfect. The angel watching her disagreed.", "body": "Paranormal thriller. Forbidden love. Heaven and hell at war over one Black woman who never asked to be chosen.\n\n📖 Start the saga here. $15 at violettemeier.com.", "visual": "Book cover propped on a windowsill, white feather beside it."}, "sales": {"hook": "One book. One impossible decision. $15.", "body": "Angel Crush — the beginning of the saga. Paranormal romance with theological teeth and a Black woman at the center. violettemeier.com.", "visual": "Book on a stack with candle and cross necklace."}, "engage": {"hook": "If an angel told you the truth would shatter your life, would you still want to know?", "body": "That's the question Sadie has to answer. Tell me yours.", "visual": "Quote card on a moody sky background."}, "event": {"hook": "Live reading from Angel Crush this Friday.", "body": "I'm reading the scene where Sadie first sees him. Save the date. Tag a friend who needs this book.", "visual": "Author photo with book and \"live reading\" overlay."}}, "tiktok": {"awareness": {"hook": "POV: you find out your perfect life was someone else's plan.", "body": "Reads opening paragraph over moody B-roll. Ends on cover.", "visual": "Face-cam reading, low light, cover visible."}, "sales": {"hook": "$15 book that wrecked my readers. Here's why.", "body": "Hold up book, list hooks (forbidden love, celestial stalker, Black heroine). \"Link in bio.\"", "visual": "Face-cam, well-lit, book in hand."}, "engage": {"hook": "Red flags from a man whose wings are showing. A thread.", "body": "Three-part series. Each part = one red flag from Angel Crush.", "visual": "Carousel-style TikTok with text overlays."}, "event": {"hook": "Live read of Angel Crush — Friday 8pm.", "body": "Going live. Reading the scene that broke everyone. Follow so you don't miss it.", "visual": "Animated text card with date and time."}}, "facebook": {"awareness": {"hook": "I want to tell you about Sadie Covington.", "body": "She thought her life was perfect. She was wrong. Angel Crush is a paranormal thriller about a woman who becomes the obsession of a celestial stalker and has to decide what to do with the truth he forces on her.\n\nIt's the first book in a three-book saga. violettemeier.com.", "visual": "Photo of book with a single white feather."}, "sales": {"hook": "Angel Crush — $15, signed copies on request.", "body": "Book one of the saga. Message me if you want it signed. Otherwise, violettemeier.com.", "visual": "Copies ready to ship."}, "engage": {"hook": "A question for the readers in this group:", "body": "When an angel tells you the truth would ruin your life, do you want to hear it anyway?\n\nThat's the question I built Angel Crush around. Curious where you land.", "visual": "Quote graphic."}, "event": {"hook": "Online live reading this Friday.", "body": "I'll be reading from Angel Crush at [time]. RSVP and I'll send the link. Bring questions.", "visual": "Event banner."}}}}, "son-of-the-rock": {"title": "Son of the Rock (Angel Crush II)", "genre": "Paranormal sequel", "price": "$15", "tagline": "The war that started in heaven comes for earth.", "synopsis": "Part II of the Angel Crush Saga. Stakes escalate, alliances shift, and Sadie's power awakens.", "audience": {"age": "25–40", "skew": "78% women", "sweetSpot": "Existing Angel Crush readers ready for the deeper cut", "psycho": "Series-loyal, pre-orders, post reaction videos, wants darker stakes than book one", "comps": "Anyone who devoured book one", "platforms": "Instagram, TikTok"}, "hashtags": "#SonOfTheRock #AngelCrushSaga #BookSequel #BlackBookTok", "tactics": ["Tease only to readers who finished book one — spoilers protect newcomers and reward fans", "\"If you screamed at the ending of book one…\" hook performs", "Reader-quote carousels of book one reactions push pre-orders for book two and three", "\"Which Angel Crush character died for you?\" poll baits engagement"], "growth": "Drive saga completion. Bundle promo: \"Finished book one? Book two and three together for $25.\" Re-share book one reader reactions to tease the wreckage book two delivers.", "posts": {"instagram": {"awareness": {"hook": "Book one ended in a crisis. Book two starts in a war.", "body": "Son of the Rock — Angel Crush Saga part II. The stakes escalate. Sadie's power awakens.\n\n📖 $15 at violettemeier.com.", "visual": "Book cover with sword and feather flatlay."}, "sales": {"hook": "If you finished Angel Crush, you already know.", "body": "Son of the Rock is waiting. $15 at violettemeier.com.", "visual": "Stack of book one and two."}, "engage": {"hook": "Drop a comment if Angel Crush ruined you. Don't say which scene — I want to see who got the same one.", "body": "Curious to see what wrecks readers most.", "visual": "Quote card from the book one finale."}, "event": {"hook": "Book two release event — Atlanta.", "body": "[date, venue]. Reading. Signing. Hugs for readers crying about book one. RSVP at violettemeier.com.", "visual": "Event flyer."}}, "tiktok": {"awareness": {"hook": "If you screamed at the ending of Angel Crush, this is your warning.", "body": "Book two opens in the middle of consequences. Talk to camera.", "visual": "Face-cam, book in hand."}, "sales": {"hook": "POV: you finished book one and you have ZERO chill.", "body": "Talk to camera about how to read book two without spoiling yourself. End on cover.", "visual": "Face-cam, expressive."}, "engage": {"hook": "Reader reactions to book one. Y'all are not okay.", "body": "Screen-record reader DMs (anonymized) reacting to book one finale. Voiceover.", "visual": "Screen-record style TikTok."}, "event": {"hook": "Book two signing in Atlanta — don't miss it.", "body": "I'll be at [venue] on [date]. Bring book one for signing too.", "visual": "Face-cam announcement."}}, "facebook": {"awareness": {"hook": "If you read Angel Crush, you know why I had to write book two.", "body": "Son of the Rock picks up where the saga's opening crisis left off. Bigger stakes. New alliances. Sadie steps into power she didn't ask for.\n\nviolettemeier.com.", "visual": "Cover photo with handwritten dedication."}, "sales": {"hook": "Book two of the Angel Crush Saga, $15.", "body": "Available at violettemeier.com. Signed copies on request.", "visual": "Book in hand."}, "engage": {"hook": "Question for the readers who finished Angel Crush:", "body": "Which character's arc do you think changes the most in book two? Curious where instinct lands.", "visual": "Spoiler-free quote graphic."}, "event": {"hook": "Atlanta book two release event — you're invited.", "body": "[date, time, venue]. RSVP here. Share with someone you converted to the saga.", "visual": "Event banner."}}}}, "archfiend": {"title": "Archfiend (Angel Crush III)", "genre": "Paranormal finale", "price": "$15", "tagline": "Every saga ends. Not every ending is salvation.", "synopsis": "Part III of the Angel Crush Saga. The final confrontation — cosmic, romantic, and irreversible.", "audience": {"age": "25–40", "skew": "78% women", "sweetSpot": "Saga completionists who need to know how it ends", "psycho": "Will tag friends, post sobbing reaction videos, re-read the whole series after", "comps": "Final-book readers of any major paranormal series", "platforms": "TikTok, Instagram"}, "hashtags": "#Archfiend #AngelCrushSaga #SeriesFinale #BlackBookTok", "tactics": ["\"How the saga ends\" countdown — spoiler-free 14 days, then post-finale reactions", "Re-read challenge: \"read all three back-to-back before the anniversary\"", "Tease a possible spin-off — keeps the universe alive even after the saga closes"], "growth": "The finale is the emotional payoff — reader testimonials about being \"wrecked\" by it are gold. Repost them weekly. A signed-finale collector edition at $30 for super-fans is leaving money on the table.", "posts": {"instagram": {"awareness": {"hook": "The saga ends here.", "body": "Archfiend is the final book. Every choice across three novels collides in one ending.\n\n📖 $15 at violettemeier.com.", "visual": "All three covers stacked, candle burning beside them."}, "sales": {"hook": "The Angel Crush Saga is complete.", "body": "Archfiend closes the trilogy. If you started, you have to finish. $15 at violettemeier.com.", "visual": "Final book solo against dark background."}, "engage": {"hook": "No spoilers. Just — are you okay after Archfiend?", "body": "Tap if you finished the saga. I'm collecting witnesses.", "visual": "Blank quote card: \"are you okay?\""}, "event": {"hook": "Saga finale launch event — Atlanta.", "body": "[date, venue]. Reading. Signing. Tissues provided. RSVP at violettemeier.com.", "visual": "Event flyer with all three covers."}}, "tiktok": {"awareness": {"hook": "POV: you just finished a three-book saga and your nervous system is gone.", "body": "Reader reaction format. Talk to camera.", "visual": "Face-cam, slightly disheveled, books in lap."}, "sales": {"hook": "The Angel Crush Saga finale is out. If you stopped at book two, what are you doing.", "body": "Face-cam, direct: \"I need you to know how this ends.\"", "visual": "Face-cam with all three books."}, "engage": {"hook": "Tell me your one-word reaction to Archfiend. I'm collecting them.", "body": "I'll feature my favorites next week.", "visual": "Face-cam asking the question."}, "event": {"hook": "Saga finale event — going live Friday.", "body": "I'm reading the last scene I'm allowed to read. Bring your tissues.", "visual": "Animated text card."}}, "facebook": {"awareness": {"hook": "The Angel Crush Saga ends with Archfiend.", "body": "Three books. One ending. I can't tell you what happens — but if you started, you owe it to Sadie to finish.\n\nviolettemeier.com.", "visual": "Trilogy stacked in author's hands."}, "sales": {"hook": "Final book of the Angel Crush Saga — $15.", "body": "Available now at violettemeier.com. Signed copies on request.", "visual": "Book three solo."}, "engage": {"hook": "For everyone who finished the saga — one word.", "body": "Drop it in the comments. I'm not okay either.", "visual": "Single quote graphic."}, "event": {"hook": "Finale event in Atlanta — you're invited.", "body": "[date, time, venue]. The last reading event for this saga. RSVP here.", "visual": "Event banner with all three books."}}}}, "oracles": {"title": "Oracles", "genre": "Paranormal family epic", "price": "$15", "tagline": "Ma Lily is 101. The shadow at her birthday party knows why.", "synopsis": "It's Ma Lily's 101st birthday and her family gathers as she recounts an extraordinary life — paranormal thrills, miracles, magic, and a rich family history filled with love and life lessons. A shadowy entity watches.", "audience": {"age": "30–60", "skew": "75% women", "sweetSpot": "Black women who love multigenerational stories — The Color Purple meets a ghost story", "psycho": "Values ancestor wisdom, family sagas, women elders as protagonists, faith woven through fiction", "comps": "Toni Morrison, Jewell Parker Rhodes (Voodoo Dreams), Honorée Fanonne Jeffers, Tananarive Due (The Good House)", "platforms": "Facebook, Instagram"}, "hashtags": "#Oracles #BlackFamilySaga #AncestorStories #ParanormalFiction #BlackWomenWriters #Bookstagram", "tactics": ["Lead with Ma Lily — a 101-year-old protagonist is rare and shareable", "Pitch to Black women's book clubs (especially church-adjacent) on Facebook", "\"Who is the Ma Lily in YOUR family?\" prompt drives massive comment threads", "Mother's Day, Black History Month, and Juneteenth are peak push windows"], "growth": "This book has crossover appeal beyond paranormal readers — pitch it to literary-fiction-adjacent audiences and Black women's book clubs. Reach out to 10 such clubs per quarter; offer a free signed copy in exchange for a club read.", "posts": {"instagram": {"awareness": {"hook": "Ma Lily is 101. The shadow at her birthday party knows why.", "body": "Oracles is a paranormal family epic spanning a century of one extraordinary woman's life — thrills, miracles, magic, and a family gathering at her feet to hear it all.\n\n📖 $15 at violettemeier.com.", "visual": "Cover with vintage photo album and candles."}, "sales": {"hook": "101 years. One family. One book.", "body": "Oracles is the kind of multigenerational story you press into your sister's hands. $15 at violettemeier.com.", "visual": "Book on a quilted blanket with sepia photos."}, "engage": {"hook": "Who's the Ma Lily in YOUR family? The one with the stories.", "body": "Tell me about her in the comments. I'll read every one.", "visual": "Quote card: \"Every family has a keeper of stories.\""}, "event": {"hook": "Oracles reading at [venue].", "body": "I'm reading from the chapter that everyone cries at. Bring your aunties.", "visual": "Author photo with the book."}}, "tiktok": {"awareness": {"hook": "POV: your great-grandmother sits you down and tells you what really happened.", "body": "Reads opening passage over moody B-roll of an old house. Ends on cover.", "visual": "Cinematic B-roll with voiceover read."}, "sales": {"hook": "The Black family epic with a ghost story inside it.", "body": "Talk to camera: \"Oracles is what happens when Toni Morrison and a haunted house had a baby.\"", "visual": "Face-cam, well-lit, book visible."}, "engage": {"hook": "Tell me one thing your grandmother said that you still think about.", "body": "I'll read my favorite responses next week.", "visual": "Face-cam asking the question."}, "event": {"hook": "Going live to read from Oracles.", "body": "The chapter that wrecked my mom. Friday 8pm.", "visual": "Text card with details."}}, "facebook": {"awareness": {"hook": "Ma Lily is 101. Her family is at her feet. A shadow is watching.", "body": "Oracles is a paranormal family epic about an extraordinary woman recounting an extraordinary life. Black women elders rarely get to be the protagonist of their own ghost story — this one does.\n\nviolettemeier.com.", "visual": "Quote about Ma Lily on a sepia background."}, "sales": {"hook": "Oracles — $15. Signed copies on request.", "body": "A multigenerational Black family epic with miracles, magic, and a shadow that won't leave the birthday party. violettemeier.com.", "visual": "Book in hand."}, "engage": {"hook": "Who's the matriarch of your family? Tag her or tell me about her.", "body": "I want to hear about your Ma Lily.", "visual": "Quote card."}, "event": {"hook": "Book club reading — join me in person or online.", "body": "[date, time]. We're discussing Oracles. RSVP here.", "visual": "Event banner."}}}}, "ruah": {"title": "Ruah the Immortal", "genre": "Biblical historical fantasy", "price": "$15", "tagline": "She loved the holiest of men. The cost was forever.", "synopsis": "Tovah (Ruah), a first-century Hebrew woman whose misguided affection for the holiest of men inadvertently grants her immortality. She journeys ancient Israel to find her dishonored sister Avigáyil, captured by the unholiest of men.", "audience": {"age": "30–55", "skew": "70% women", "sweetSpot": "Christian fiction readers who want bolder stories — and historical fantasy readers open to faith", "psycho": "Knows the Gospels well enough to recognize who \"the holiest of men\" is and wants a sister's-eye view", "comps": "Francine Rivers (A Voice in the Wind), Anita Diamant (The Red Tent), Marie Corelli", "platforms": "Facebook, Instagram"}, "hashtags": "#RuahTheImmortal #BiblicalFiction #ChristianFantasy #HistoricalFantasy #FaithFiction #Bookstagram", "tactics": ["Tap Christian book bloggers, podcasters, and Bookstagrammers — loyal and underserved niche", "\"What if you loved Jesus the wrong way\" is a respectfully provocative angle", "Easter, Lent, and Christmas are tentpole sales windows", "Two-sisters dynamic is the carousel-friendly hook — Tovah and Avigáyil character cards"], "growth": "This is the bridge to the Christian fiction market. Pitch directly to 20+ faith-based podcasts and Christian bookstores. The audience is enormous and underserved by paranormal-fluent voices.", "posts": {"instagram": {"awareness": {"hook": "She loved the holiest of men. The cost was forever.", "body": "Ruah the Immortal: Tovah's misguided love grants her immortality in first-century Israel. Her search for her sister Avigáyil becomes a reckoning with the sacred and the profane.\n\n📖 Biblical historical fantasy. $15 at violettemeier.com.", "visual": "Cover on linen with olive branch and oil lamp."}, "sales": {"hook": "Biblical fantasy from a sister's point of view.", "body": "For readers of The Red Tent and Francine Rivers who want something bolder. $15 at violettemeier.com.", "visual": "Book with ancient-styled cloth."}, "engage": {"hook": "If immortality cost you everyone you love, would you still want it?", "body": "Tovah's answer drives the whole book. What's yours?", "visual": "Quote card on parchment background."}, "event": {"hook": "Live reading from Ruah this Sunday after service.", "body": "[time, venue or link]. RSVP and I'll see you there.", "visual": "Author photo with book."}}, "tiktok": {"awareness": {"hook": "POV: you accidentally fell in love with Jesus and now you can't die.", "body": "Reads opening scene where Tovah realizes. Voiceover style.", "visual": "Atmospheric voiceover with book footage."}, "sales": {"hook": "Biblical fantasy you didn't know you needed.", "body": "\"If you grew up in church AND love fantasy, this is the gap-filler.\" Hold up the book.", "visual": "Face-cam, book in hand."}, "engage": {"hook": "Tell me a Bible character you wish had their own novel.", "body": "I'll read my favorites. Drop them in the comments.", "visual": "Face-cam."}, "event": {"hook": "Going live: reading from Ruah the Immortal.", "body": "The scene where Tovah meets her sister again. Sunday evening.", "visual": "Text card."}}, "facebook": {"awareness": {"hook": "For readers who love both their Bible and a good story.", "body": "Ruah the Immortal follows Tovah, a first-century Hebrew woman whose misguided love for the holiest of men accidentally grants her immortality. Her journey through ancient Israel to find her sister is a reckoning with faith, betrayal, and forever.\n\nviolettemeier.com.", "visual": "Book with cross necklace beside it."}, "sales": {"hook": "Ruah the Immortal — $15. Signed copies on request.", "body": "Biblical historical fantasy for thoughtful readers. violettemeier.com.", "visual": "Book in hand."}, "engage": {"hook": "For my faith readers — a question.", "body": "When you imagine Bible-era people, do you imagine them as flat characters in a story, or as full humans? Ruah was my attempt to imagine fully. Curious what you think.", "visual": "Soft quote card."}, "event": {"hook": "Reading from Ruah at [church / venue].", "body": "Sunday evening. Q&A after. RSVP here.", "visual": "Event banner."}}}}, "out-of-night": {"title": "Out of Night (Zayashariya I)", "genre": "Science fantasy", "price": "$15", "tagline": "She escaped one planet. The next wants her dead.", "synopsis": "Zayashariya abandons her birthright and escapes the planet Night. She arrives in the town of Wilzasp, blamed for rising deaths, hunted by demons and blood-craving natives — and entangled in a forbidden love affair.", "audience": {"age": "22–40", "skew": "65% women", "sweetSpot": "Black sci-fi/fantasy readers who loved Children of Blood and Bone and want adult stakes", "psycho": "Reads Octavia Butler, watches sci-fi, wants Black women as space heroines, open to spiritual themes", "comps": "N. K. Jemisin (Broken Earth), Tomi Adeyemi, Nnedi Okorafor (Binti), Octavia Butler", "platforms": "TikTok, Instagram"}, "hashtags": "#OutOfNight #Zayashariya #BlackSciFi #AfricanFuturism #Afrofuturism #BlackSpeculativeFiction #BlackBookTok", "tactics": ["Afrofuturism is a movement — ride it: tag #Afrofuturism communities and pitch to Black sci-fi podcasts", "\"First Chronicle\" implies more is coming — build anticipation for book two", "Concept art carousels of planet Night and Wilzasp drive saves", "Pitch to Black Speculative Fiction Foundation, FIYAH Magazine community"], "growth": "Most underleveraged book. Afrofuturism is a discoverable hashtag with a hungry audience. Three months of consistent Afrofuturism-tagged content could quadruple this book's reach.", "posts": {"instagram": {"awareness": {"hook": "She escaped one planet. The next one wants her dead.", "body": "Out of Night: Zayashariya abandons her birthright, escapes the planet Night, and lands in a town that blames her for everything wrong. Science fantasy with a spiritual core.\n\n📖 $15 at violettemeier.com.", "visual": "Cover with cosmic backdrop and concept art of planet Night."}, "sales": {"hook": "Black science fantasy you've been missing.", "body": "For readers of N. K. Jemisin and Nnedi Okorafor. The First Chronicle of Zayashariya. $15 at violettemeier.com.", "visual": "Book against starfield."}, "engage": {"hook": "Can someone truly change their nature? Zayashariya has to find out.", "body": "What do you think? Tell me in the comments.", "visual": "Quote card on cosmic background."}, "event": {"hook": "Reading from Out of Night this Friday.", "body": "[venue / link]. RSVP at violettemeier.com.", "visual": "Author photo with book."}}, "tiktok": {"awareness": {"hook": "POV: you escape your home planet and the next one tries to kill you for arriving.", "body": "Reads opening passage with cosmic visuals. Ends on cover.", "visual": "Voiceover with sci-fi B-roll."}, "sales": {"hook": "Afrofuturist science fantasy with a Black woman lead.", "body": "\"If you watched Children of Blood and Bone trailers and want adult stakes, this is it.\"", "visual": "Face-cam, book in hand."}, "engage": {"hook": "Drop a Black sci-fi/fantasy book that changed you.", "body": "I want to read what you love. I'll share mine.", "visual": "Face-cam."}, "event": {"hook": "Going live to read from Out of Night.", "body": "Friday 8pm. Following on TikTok = front-row seat.", "visual": "Text card."}}, "facebook": {"awareness": {"hook": "Black science fantasy with a faith thread running through it.", "body": "Out of Night follows Zayashariya, who escapes her birthright on the planet Night and finds herself blamed for the deaths of strangers in a town that doesn't want her. The First Chronicle of a series.\n\nviolettemeier.com.", "visual": "Cover with cosmic backdrop."}, "sales": {"hook": "Out of Night — $15. The First Chronicle of Zayashariya.", "body": "Signed copies on request. Black sci-fi/fantasy for readers ready for a series.", "visual": "Book in hand."}, "engage": {"hook": "Question for the SFF readers:", "body": "When sci-fi and faith get woven together, do you find it powerful or distracting? I went all in on Out of Night. Curious where you stand.", "visual": "Quote card."}, "event": {"hook": "Reading from Out of Night — you're invited.", "body": "[date, time, venue]. RSVP here.", "visual": "Event banner."}}}}, "preternatural": {"title": "Preternatural Haze", "genre": "Short story collection (supernatural)", "price": "$10", "tagline": "Twelve stories. One peculiar haze.", "synopsis": "A short story collection of strange, dreamlike, supernatural tales — perfect for fall reading, bedside dipping, and anyone who loves the eerie and the lyrical.", "audience": {"age": "20–45", "skew": "70% women", "sweetSpot": "Short-attention readers who want literary horror in small doses", "psycho": "Reads on commutes, listens to spooky podcasts, loves Carmen Maria Machado, watches anthology horror", "comps": "Carmen Maria Machado, Helen Oyeyemi, Lesley Nneka Arimah, Get Out viewers", "platforms": "TikTok, Instagram"}, "hashtags": "#PreternaturalHaze #SpookyBookTok #ShortStories #LiteraryHorror #SouthernGothic #BlackHorror #Bookstagram", "tactics": ["$10 price = lowest-friction entry to her catalog", "October push: \"31 days, 12 stories, perfect spooky season starter\"", "Read one full story on TikTok Live monthly — free taste, paid follow-up", "Audiobook potential is huge — if she narrates it, that's a whole new revenue stream"], "growth": "Cheapest book = best gateway. Run it as a lead magnet: free first story PDF in exchange for email signup, then sell the full collection and upsell the saga.", "posts": {"instagram": {"awareness": {"hook": "Twelve short stories. One peculiar haze.", "body": "Preternatural Haze is a supernatural short story collection — ghosts who don't know they're ghosts, women who speak to the dead, towns that shouldn't exist.\n\n📖 $10 at violettemeier.com.", "visual": "Book on a windowsill with fog and candlelight."}, "sales": {"hook": "$10. Twelve stories. Endless eerie.", "body": "Perfect spooky-season starter. violettemeier.com.", "visual": "Flatlay with autumn leaves and candle."}, "engage": {"hook": "Which is creepier: a ghost who knows it's dead, or one who doesn't?", "body": "I think about this constantly. Preternatural Haze plays with both.", "visual": "Quote card on misty background."}, "event": {"hook": "Live story reading from Preternatural Haze.", "body": "I'll read one full story. Pick which one in the comments.", "visual": "Author photo with book and \"live reading\" overlay."}}, "tiktok": {"awareness": {"hook": "POV: it's 11pm, you opened a short story \"just for one,\" and now it's 2am.", "body": "Talk to camera over cozy reading nook visuals.", "visual": "Cozy reading nook, low light."}, "sales": {"hook": "Need a $10 book that reads like a fever dream?", "body": "Hold up the book. Three story premises in 20 seconds. Link in bio.", "visual": "Face-cam, book in hand."}, "engage": {"hook": "I'll read one paragraph and you tell me if you're hooked.", "body": "Read an atmospheric opening line. Close-up.", "visual": "Face-cam, candle visible."}, "event": {"hook": "TikTok live story reading this Friday.", "body": "I'm reading one full story. Follow so you don't miss it.", "visual": "Animated text card."}}, "facebook": {"awareness": {"hook": "I want to tell you about a strange little book I wrote.", "body": "Preternatural Haze is twelve short stories — some scary, some beautiful, all short enough to read in one sitting. For readers who love a good shiver and a good sentence.\n\nviolettemeier.com.", "visual": "Photo of book with handwritten note."}, "sales": {"hook": "Preternatural Haze — $10, available now.", "body": "Twelve short stories. Great gift for spooky readers. violettemeier.com.", "visual": "Stack of copies ready to ship."}, "engage": {"hook": "A question for the readers:", "body": "When you read a ghost story, do you want to understand the ghost, or stay scared of it?", "visual": "Atmospheric quote graphic."}, "event": {"hook": "Online live story reading.", "body": "[date, time]. RSVP and I'll send the link.", "visual": "Event banner."}}}}, "hags-haints": {"title": "Hags, Haints, and Hoodoo", "genre": "Short story collection (Black folklore horror)", "price": "$10", "tagline": "A sexy boo hag named Peaches. Mami Wata at HBCU homecoming.", "synopsis": "Werewolves on a date. Mami Wata striking a deal during an HBCU homecoming. A goddess born in ancient Kemet. A creepy, humorous, electrifying short story collection rooted in African and African American folklore.", "audience": {"age": "22–45", "skew": "75% women", "sweetSpot": "Black readers hungry for folklore-grounded horror that doesn't flatten Black culture", "psycho": "HBCU graduates, Southern roots, knows what a boo hag is, follows Jordan Peele, listens to Lore podcast", "comps": "Jordan Peele's work, P. Djèlí Clark (Ring Shout), Tananarive Due, Octavia Butler (Kindred)", "platforms": "TikTok, Instagram"}, "hashtags": "#HagsHaintsAndHoodoo #BlackHorror #SouthernGothic #BlackFolklore #BooHag #HBCU #BlackBookTok #SpookyBookTok", "tactics": ["Lead with Peaches — a sexy boo hag is the rare premise that explains itself in a sentence", "Mami Wata at HBCU homecoming is a TikTok thirst-trap-meets-folklore hook — push during homecoming season", "Folklore explainer reels do double duty: educate AND sell", "Pitch to Black horror podcasts, HBCU alumni groups, Southern Gothic creators"], "growth": "This book is the most TikTok-native title she owns. A series of 60-second folklore explainers (\"what's a boo hag?\", \"who is Mami Wata?\") tied to the stories would build organic reach FAST. Should already be running.", "posts": {"instagram": {"awareness": {"hook": "A sexy boo hag named Peaches. Mami Wata at HBCU homecoming. A goddess born in Kemet.", "body": "Hags, Haints, and Hoodoo is a supernatural short story collection rooted in African and African American folklore. Creepy, funny, electrifying.\n\n📖 $10 at violettemeier.com.", "visual": "Cover surrounded by salt circle, mojo bag, and red candle."}, "sales": {"hook": "$10 of folklore your grandmother warned you about.", "body": "Supernatural short stories that read like family secrets. violettemeier.com.", "visual": "Book on a porch railing at twilight."}, "engage": {"hook": "Did your family warn you about boo hags?", "body": "Tell me what they said. I want to compare notes.", "visual": "Quote card."}, "event": {"hook": "Live folklore reading from Hags, Haints, and Hoodoo.", "body": "I'll read the Peaches story. Bring snacks. Lock your door.", "visual": "Author photo with book and red candle."}}, "tiktok": {"awareness": {"hook": "A boo hag is a Gullah-Geechee spirit that rides you while you sleep. I wrote a book about her.", "body": "Explainer-format: face-cam with folklore facts. Hold up the book at the end.", "visual": "Face-cam folklore explainer."}, "sales": {"hook": "Black horror short stories rooted in folklore your auntie warned you about. $10.", "body": "Talk to camera, name three story premises, link in bio.", "visual": "Face-cam with book."}, "engage": {"hook": "What's a supernatural thing your family said was real?", "body": "Drop yours. I'll share mine. I want to know what survives in your family.", "visual": "Face-cam, conversational."}, "event": {"hook": "Going live to read the Peaches story.", "body": "The boo hag named Peaches. Friday 10pm. Lights off recommended.", "visual": "Text card with eerie audio."}}, "facebook": {"awareness": {"hook": "I wrote a book about the supernatural beings your family warned you about.", "body": "Hags, Haints, and Hoodoo is a short story collection rooted in African American and African folklore. Boo hags, hoodoo bargains, Mami Wata, Kemet goddesses — the mythology you grew up adjacent to, written into modern stories.\n\nviolettemeier.com.", "visual": "Book with mojo bag and salt circle."}, "sales": {"hook": "Hags, Haints, and Hoodoo — $10.", "body": "Supernatural short stories rooted in Black folklore. Signed copies on request. violettemeier.com.", "visual": "Book on display."}, "engage": {"hook": "Did your family talk about the supernatural? Mine did.", "body": "Tell me what they warned you about. I built a book out of those warnings.", "visual": "Soft quote graphic."}, "event": {"hook": "Live folklore reading — Friday night.", "body": "I'm reading the Peaches story. Lock your door. RSVP here.", "visual": "Event banner."}}}}, "tales-numinous": {"title": "Tales of a Numinous Nature", "genre": "Short story collection (spiritual / supernatural)", "price": "$10", "tagline": "Tales where the veil is thin.", "synopsis": "A short story collection where the spiritual and supernatural meet — numinous, eerie, and reverent. Bite-sized stories for readers who want awe with their unease.", "audience": {"age": "25–50", "skew": "72% women", "sweetSpot": "Readers at the intersection of spiritual nonfiction and supernatural fiction", "psycho": "Has Eckhart Tolle and Octavia Butler on the same shelf, loves a good ghost story that's also asking real questions", "comps": "Madeleine L'Engle's adult work, Marilynne Robinson with stakes, Carmen Maria Machado", "platforms": "Instagram, Facebook"}, "hashtags": "#TalesOfANuminousNature #NuminousFiction #SpiritualFiction #ShortStories #Bookstagram #FaithAndFiction", "tactics": ["Pair with her inspirational books in bundle pricing for the Facebook audience", "\"Fiction with the soul of devotion\" is the marketing line", "Sunday-morning posts perform best — contemplative timing", "Pitch to spiritual-but-not-religious book communities and progressive Christian groups"], "growth": "Untapped audience: progressive faith readers + literary supernatural readers don't overlap often, but this book hits both. Pitch to faith podcasts AND lit-mag short-fiction newsletters in the same month.", "posts": {"instagram": {"awareness": {"hook": "Where the veil is thin.", "body": "Tales of a Numinous Nature: short stories at the intersection of spiritual and supernatural. Eerie, reverent, and short enough to read between prayers.\n\n📖 $10 at violettemeier.com.", "visual": "Book on a Bible with candlelight."}, "sales": {"hook": "$10. Stories that ask big questions in small spaces.", "body": "For readers who like their fiction with soul. violettemeier.com.", "visual": "Soft flatlay with linen and dried flowers."}, "engage": {"hook": "Have you ever felt the veil thin? Tell me when.", "body": "I write what I've felt. Curious if you have too.", "visual": "Quote card on misty background."}, "event": {"hook": "Sunday evening reading from Tales of a Numinous Nature.", "body": "[date, time, venue or link]. RSVP at violettemeier.com.", "visual": "Author photo with book."}}, "tiktok": {"awareness": {"hook": "POV: you ask God a question and the next page answers it.", "body": "Reads one numinous line over candle B-roll.", "visual": "Candle-lit voiceover."}, "sales": {"hook": "Spiritual fiction that doesn't flinch.", "body": "Hold up the book, share one premise. Link in bio.", "visual": "Face-cam."}, "engage": {"hook": "Have you ever read fiction that felt like prayer?", "body": "Drop the book. I'm collecting recommendations.", "visual": "Face-cam."}, "event": {"hook": "Going live with one story from Tales of a Numinous Nature.", "body": "Sunday 7pm. Follow so you can join.", "visual": "Text card."}}, "facebook": {"awareness": {"hook": "Some of my stories feel like prayers.", "body": "Tales of a Numinous Nature is that collection — short fiction at the place where the spiritual meets the supernatural. For readers who want awe with their unease.\n\nviolettemeier.com.", "visual": "Book with rosary or cross beside it."}, "sales": {"hook": "Tales of a Numinous Nature — $10.", "body": "Available now. Signed copies on request. violettemeier.com.", "visual": "Book in hand."}, "engage": {"hook": "A question for my reflective readers:", "body": "When did fiction last move you in the way a sermon does? I tried to write that book.", "visual": "Quote card."}, "event": {"hook": "Sunday evening reading. Join me.", "body": "[date, time]. RSVP here for the link.", "visual": "Event banner."}}}}, "living-loving": {"title": "Living and Loving Life One Day at a Time", "genre": "Inspirational (366 axioms)", "price": "$7", "tagline": "366 axioms. One for every day of the year.", "synopsis": "366 daily axioms designed to make you think, help you get through every day, and inspire you to live life to the fullest.", "audience": {"age": "30–65", "skew": "80% women", "sweetSpot": "Daily devotional readers, journaling community, gift-buyers", "psycho": "Reads one page over morning coffee, gifts books to friends and women in their life, reshares quotes", "comps": "Sarah Ban Breathnach (Simple Abundance), Iyanla Vanzant (Acts of Faith), Maya Angelou", "platforms": "Instagram, Facebook, Pinterest"}, "hashtags": "#LivingAndLovingLife #DailyDevotional #Inspiration #BlackWomenAuthors #GiftBook #DailyAxiom", "tactics": ["$7 = perfect impulse buy and gift book — push for Mother's Day, graduation, Christmas, birthday", "Post ONE axiom per day on IG and FB — 366 days of organic content built in", "Pinterest is a goldmine — quote graphics travel for years", "Pitch to women's ministry groups, sorority newsletters, hairstylist communities"], "growth": "The most repurposable book in her catalog. One quote a day = a year of free organic content that sells the book. Set up a dedicated Pinterest account. This is the highest-ROI marketing project she could run.", "posts": {"instagram": {"awareness": {"hook": "366 axioms. One for every day of the year.", "body": "Living and Loving Life One Day at a Time: a daily axiom to make you think, get you through, and inspire you. Year-round companion.\n\n📖 $7 at violettemeier.com.", "visual": "Open book on a coffee tray with morning sunlight."}, "sales": {"hook": "$7. 366 days of small encouragements.", "body": "Perfect gift. Perfect stocking stuffer. Perfect for the woman in your life. violettemeier.com.", "visual": "Book with a ribbon bow on top."}, "engage": {"hook": "Today's axiom: [paste one from the book].", "body": "Save this if it spoke to you. Share if you know someone who needs it today.", "visual": "Quote graphic with axiom in elegant serif."}, "event": {"hook": "Daily axiom live reading every morning this week.", "body": "Tune in at 8am on Stories. Coffee in hand. One axiom. Done.", "visual": "Author photo with coffee and book."}}, "tiktok": {"awareness": {"hook": "I wrote a book with one short thought for every day of the year. Here's today's.", "body": "Reads today's axiom directly to camera.", "visual": "Face-cam, well-lit, book visible."}, "sales": {"hook": "$7 book that'll outlast your January goals.", "body": "Talk to camera. Hold up book. \"366 days. One axiom each. Link in bio.\"", "visual": "Face-cam with book."}, "engage": {"hook": "Which axiom do you need today?", "body": "I'll pull a random one. Comment a number 1-366.", "visual": "Face-cam interactive."}, "event": {"hook": "Daily axiom going live every morning this week.", "body": "8am EST. Coffee. One axiom. Tap follow.", "visual": "Text card."}}, "facebook": {"awareness": {"hook": "Some books you read once. This one you read every morning.", "body": "Living and Loving Life One Day at a Time: 366 daily axioms. For your nightstand, your kitchen counter, your gift list.\n\nviolettemeier.com.", "visual": "Book on a kitchen table with coffee."}, "sales": {"hook": "$7 — the perfect gift book.", "body": "Available at violettemeier.com. Buy in bulk for women's ministries, sororities, and book clubs.", "visual": "Stack of copies."}, "engage": {"hook": "Today's axiom for this group: [paste].", "body": "Share if it speaks to you. Tag someone who needs it today.", "visual": "Quote graphic."}, "event": {"hook": "Daily axiom live every morning this week on FB Live.", "body": "8am. Pull up a chair. One axiom. RSVP to be notified.", "visual": "Event banner."}}}}, "with-all-my-being": {"title": "With All My Being: Prayers and Psalms", "genre": "Inspirational / spiritual", "price": "$7", "tagline": "Prayers from a poet's heart.", "synopsis": "Original prayers and psalms written in a poetic, devotional voice — for personal use, gifting, and group worship.", "audience": {"age": "35–70", "skew": "82% women", "sweetSpot": "Church-going Black women, prayer groups, ministry leaders", "psycho": "Carries a journal to church, prays out loud, gifts faith books, follows prayer accounts on Instagram", "comps": "Iyanla Vanzant, Joyce Meyer, Ann Voskamp (One Thousand Gifts), Cole Arthur Riley (Black Liturgies)", "platforms": "Facebook, Instagram"}, "hashtags": "#WithAllMyBeing #PrayersAndPsalms #FaithBook #BlackChristianWomen #PrayerJournal #DailyPrayer", "tactics": ["Sunday morning posts of one full prayer drive sales on Mondays", "Pitch to Black church women's ministries directly — they buy in bulk for events", "Pair with the daily axioms book as a $14 \"devotional bundle\"", "Reels: Violette reading one prayer aloud over slow B-roll = high save rate"], "growth": "This is the book to evangelize through women's ministry networks. One bulk church order can move 50 copies. Identify 20 Black women's ministry leaders in Atlanta this quarter.", "posts": {"instagram": {"awareness": {"hook": "Prayers from a poet's heart.", "body": "With All My Being is a collection of original prayers and psalms — for personal devotion, group worship, and quiet morning hours.\n\n📖 $7 at violettemeier.com.", "visual": "Open book on linen with a candle."}, "sales": {"hook": "$7. A prayer book for women who carry a lot.", "body": "Buy one. Gift one. violettemeier.com.", "visual": "Book with a handwritten ribbon bookmark."}, "engage": {"hook": "What's a prayer you keep returning to?", "body": "I want to hear. I'll share mine in the replies.", "visual": "Quote card with a single line from the book."}, "event": {"hook": "Sunday morning prayer reading on Stories.", "body": "7am. One prayer. Set a quiet alarm.", "visual": "Author photo with book and cup of tea."}}, "tiktok": {"awareness": {"hook": "I wrote a prayer book. Here's one of them.", "body": "Reads one full prayer to camera in soft light.", "visual": "Face-cam in low light, candle beside."}, "sales": {"hook": "A $7 prayer book for the woman who prays for everyone else.", "body": "Talk to camera, hold up book, soft tone. \"Link in bio.\"", "visual": "Face-cam, soft light."}, "engage": {"hook": "What's your prayer this week? Don't name it. Just say \"yes\" in the comments and I'll pray with you.", "body": "Quiet engagement. Powerful for this audience.", "visual": "Face-cam, soft tone."}, "event": {"hook": "Going live Sunday morning to pray.", "body": "I'll read three prayers from With All My Being. 7am EST.", "visual": "Text card."}}, "facebook": {"awareness": {"hook": "I wrote prayers I needed to find on the days I couldn't find any.", "body": "With All My Being is a collection of original prayers and psalms. For your morning, your purse, your sister's nightstand.\n\nviolettemeier.com.", "visual": "Photo of book on a Bible."}, "sales": {"hook": "With All My Being — $7.", "body": "Signed copies on request. Bulk orders for church ministries welcomed — message me.", "visual": "Stack of copies with ribbon."}, "engage": {"hook": "Friends, I want to pray with you this week.", "body": "Type \"yes\" if you want to be remembered. No need to share what for.", "visual": "Soft quote graphic."}, "event": {"hook": "Sunday morning live prayer reading.", "body": "7am EST. Three prayers from With All My Being. RSVP here.", "visual": "Event banner."}}}}, "violette-ardor": {"title": "Violette Ardor", "genre": "Poetry", "price": "$10", "tagline": "Poems with teeth and tenderness.", "synopsis": "A poetry collection from Violette's deepest register — love, longing, the divine, and the body.", "audience": {"age": "22–45", "skew": "75% women", "sweetSpot": "Black women poetry readers, the spoken-word adjacent crowd, IG poetry community", "psycho": "Screenshots poems, reposts them with captions, follows Rupi Kaur, Yrsa Daley-Ward, Cleo Wade", "comps": "Audre Lorde, Nayyirah Waheed, Yrsa Daley-Ward, Warsan Shire", "platforms": "Instagram, TikTok, Pinterest"}, "hashtags": "#VioletteArdor #BlackPoetry #PoetryCommunity #InstaPoetry #PoetsOfInstagram #WomenPoets", "tactics": ["One poem per week as a typeset Instagram carousel — the genre's native unit", "TikTok read-alouds in low light with soft music — 30 seconds, raw voice", "Tag and engage with #BlackPoetry creators — community trades reach", "Pinterest quote graphics travel forever"], "growth": "Poetry IS social media native. The book is essentially a content engine. Aim for one poem post per week, every week, and the book sells itself. Add a monthly TikTok Live poetry reading for ritual followers.", "posts": {"instagram": {"awareness": {"hook": "Poems with teeth and tenderness.", "body": "Violette Ardor is a poetry collection from my deepest register — love, longing, the divine, the body.\n\n📖 $10 at violettemeier.com.", "visual": "Open book with handwritten margin notes visible."}, "sales": {"hook": "$10. A poetry collection you'll dog-ear.", "body": "For the women who screenshot poems and call them prayers. violettemeier.com.", "visual": "Book with a coffee ring on the cover."}, "engage": {"hook": "[paste one short poem as carousel — one line per slide]", "body": "Save this one if it found you. Tag someone who needs it.", "visual": "Carousel: one line per slide, final slide = book cover."}, "event": {"hook": "Going live to read three poems from Violette Ardor.", "body": "[date, time]. Come for the words, stay for the Q&A.", "visual": "Author photo with book."}}, "tiktok": {"awareness": {"hook": "I wrote a poetry book. Here's a line.", "body": "Read one line directly to camera. Hold. Cover at end.", "visual": "Face-cam, raw, soft light."}, "sales": {"hook": "$10 poetry book for the screenshot-and-save crowd.", "body": "Reads two more lines. Hold up book. \"Link in bio.\"", "visual": "Face-cam with book."}, "engage": {"hook": "Tell me a line of poetry that lives in your head rent-free.", "body": "I'll share mine. I'm collecting yours.", "visual": "Face-cam."}, "event": {"hook": "TikTok live reading: three poems from Violette Ardor.", "body": "Friday 9pm. Candles will be lit.", "visual": "Text card."}}, "facebook": {"awareness": {"hook": "For the readers who keep poetry in their pockets.", "body": "Violette Ardor is my collection on love, longing, and the divine. Some of these you'll read twice. Some you'll text to someone.\n\nviolettemeier.com.", "visual": "Book on a desk with handwritten letters."}, "sales": {"hook": "Violette Ardor — $10.", "body": "Signed copies on request. violettemeier.com.", "visual": "Book in hand."}, "engage": {"hook": "Today's line from Violette Ardor: [paste].", "body": "Save if it landed. Tell me what you think.", "visual": "Quote graphic."}, "event": {"hook": "Live poetry reading from Violette Ardor.", "body": "[date, time, link]. RSVP here.", "visual": "Event banner."}}}}, "sickness-love": {"title": "This Sickness We Call Love", "genre": "Poetry (love, lust, lamentation)", "price": "$10", "tagline": "Poems of love, lust, and lamentation.", "synopsis": "A poetry collection on the wounds, hunger, and grief of love — unflinching, lyrical, and intimate.", "audience": {"age": "20–40", "skew": "78% women", "sweetSpot": "Heartbreak readers, the breakup-poetry scroll-and-save crowd", "psycho": "Bookmarks poems about exes, builds Pinterest boards for their feelings, reposts on private stories", "comps": "Rupi Kaur (Milk and Honey), Yrsa Daley-Ward (Bone), Lang Leav", "platforms": "TikTok, Instagram"}, "hashtags": "#ThisSicknessWeCallLove #HeartbreakPoetry #LovePoems #BlackPoetry #PoetryCommunity #BookTok", "tactics": ["Valentine's Day and \"anti-Valentine's Day\" are major push windows", "TikTok: poet reads one stanza with eye contact — proven viral format", "IG carousels with one line per slide, ending with cover + price", "Pair with #BookTok breakup recommendations"], "growth": "Heartbreak is one of the most viral content categories on TikTok and IG. Lean fully into it. One stanza per breakup season = consistent sales spikes. Run a Valentine's week campaign every year.", "posts": {"instagram": {"awareness": {"hook": "Poems of love, lust, and lamentation.", "body": "This Sickness We Call Love is the heartbreak collection. The hunger, the wreckage, the slow climb back.\n\n📖 $10 at violettemeier.com.", "visual": "Book on a wrinkled bedsheet with a single red flower."}, "sales": {"hook": "$10. For everyone in their heartbreak era.", "body": "violettemeier.com.", "visual": "Book with a candle that's burned low."}, "engage": {"hook": "[paste two lines from the book]", "body": "Save if you've been here. Tag someone who has.", "visual": "Carousel: one line per slide."}, "event": {"hook": "Going live Valentine's week with poems from This Sickness We Call Love.", "body": "[date, time]. Bring tissues or wine.", "visual": "Author photo with book."}}, "tiktok": {"awareness": {"hook": "One stanza from my heartbreak poetry book. Read at your own risk.", "body": "Read directly to camera. Eye contact. Slow.", "visual": "Face-cam, low light, eye contact."}, "sales": {"hook": "Heartbreak era? I wrote a $10 book for you.", "body": "Hold up book. Read one line. Link in bio.", "visual": "Face-cam, soft light."}, "engage": {"hook": "Drop the line of poetry that ended a relationship for you. I'll go first.", "body": "Open it up. Read replies on next video.", "visual": "Face-cam."}, "event": {"hook": "TikTok live Valentine's week — heartbreak poems.", "body": "For the un-romantic among us. Friday 9pm.", "visual": "Text card."}}, "facebook": {"awareness": {"hook": "Some of you are in your heartbreak era. This book is for you.", "body": "This Sickness We Call Love is the love-and-lamentation collection. For the people putting themselves back together.\n\nviolettemeier.com.", "visual": "Book on a windowsill at dusk."}, "sales": {"hook": "This Sickness We Call Love — $10.", "body": "Available now. Signed copies on request. violettemeier.com.", "visual": "Book in hand."}, "engage": {"hook": "Tell me the line of poetry that helped you survive someone.", "body": "I'll share mine. We'll cry together.", "visual": "Quote graphic."}, "event": {"hook": "Heartbreak poetry reading this Valentine's week.", "body": "Live on FB. [date, time]. RSVP here.", "visual": "Event banner."}}}}, "would-you-love": {"title": "Would You Love Me?", "genre": "Children's book", "price": "$9", "tagline": "A child asks. A parent answers.", "synopsis": "A heartwarming picture book about the question of unconditional love between parent and child.", "audience": {"age": "28–42 buyers / 3–7 readers", "skew": "85% women buyers", "sweetSpot": "Black moms looking for affirming kids' books with their children represented", "psycho": "Follows @hereweeread, buys books at conscious parenting events, gifts to baby showers", "comps": "Vashti Harrison (Big), Matthew A. Cherry (Hair Love), Lupita Nyong'o (Sulwe)", "platforms": "Instagram, Facebook, TikTok"}, "hashtags": "#WouldYouLoveMe #BlackChildrensBooks #DiverseBooks #OwnVoices #KidlitDiversity #BlackKidsBooks #BabyShowerGift", "tactics": ["Pitch to Black-mom influencers and parenting accounts for review", "Bedtime read-aloud videos = parenting community catnip", "Sell as a baby shower / first birthday / adoption gift — specific occasions sell", "Pair with companion book as a $16 set"], "growth": "Children's books sell through parent influencers and gift occasions — not direct ads. Build relationships with 10 Black-mom accounts and send each one a free copy. Pitch to 5 Atlanta elementary schools.", "posts": {"instagram": {"awareness": {"hook": "A child asks. A parent answers.", "body": "Would You Love Me? is a picture book about the question every child eventually asks — and the parent's job to answer it forever.\n\n📖 $9 at violettemeier.com.", "visual": "Book in a child's small hands."}, "sales": {"hook": "$9. The picture book your child will hand you a thousand times.", "body": "Gift for baby showers, first birthdays, and bedtime libraries. violettemeier.com.", "visual": "Book on a nursery shelf."}, "engage": {"hook": "What's a question your child has asked that stopped you in your tracks?", "body": "I want to hear. Drop yours in the comments.", "visual": "Quote card."}, "event": {"hook": "Picture book read-along live this Saturday morning.", "body": "10am EST. Bring your kid. Pajamas welcome.", "visual": "Author photo with book and stuffed animal."}}, "tiktok": {"awareness": {"hook": "POV: your kid asks you the question that floors every parent.", "body": "Reads the central question. Cuts to book. Holds.", "visual": "Face-cam with picture book."}, "sales": {"hook": "$9 picture book that's also a baby shower MVP.", "body": "Talk to camera with book. \"Link in bio.\"", "visual": "Face-cam with book."}, "engage": {"hook": "What's the bedtime book your kid makes you re-read every night?", "body": "Drop it. I'm collecting recommendations.", "visual": "Face-cam."}, "event": {"hook": "Live read-along Saturday morning.", "body": "Kids welcome. 10am EST. Pajamas mandatory.", "visual": "Text card."}}, "facebook": {"awareness": {"hook": "I wrote a picture book about the question every child asks.", "body": "Would You Love Me? is for parents and kids navigating unconditional love together. Signed copies on request.\n\nviolettemeier.com.", "visual": "Book with crayons and family photo."}, "sales": {"hook": "Would You Love Me? — $9.", "body": "Pairs with I Would Love You for a $16 set. Great for baby showers and birthdays. violettemeier.com.", "visual": "Both books side by side."}, "engage": {"hook": "Parents — a question.", "body": "What's the bedtime book your child has memorized? I'm collecting titles to share.", "visual": "Quote card."}, "event": {"hook": "Live read-along this Saturday morning.", "body": "10am EST. Bring the kids. RSVP here.", "visual": "Event banner."}}}}, "i-would-love": {"title": "I Would Love You", "genre": "Children's book (companion)", "price": "$9", "tagline": "The parent's answer.", "synopsis": "The companion to Would You Love Me? — the parent's side of the conversation about unconditional love.", "audience": {"age": "28–42 buyers / 3–7 readers", "skew": "85% women buyers", "sweetSpot": "Same audience as Would You Love Me? — parents who already bought book one", "psycho": "Buys complete sets, gifts both books together, posts \"bookshelf goals\" photos", "comps": "Same as the companion book", "platforms": "Instagram, Facebook"}, "hashtags": "#IWouldLoveYou #BlackChildrensBooks #ParentChildBooks #KidlitDiversity #BlackFatherhood #GiftBook", "tactics": ["Always market the pair together — $16 for the set", "Father's Day push — less competition than Mother's Day for kids' books", "School visit / library reading bait — pitch to Atlanta elementary schools", "Post side-by-side covers — \"her question, his answer\" framing"], "growth": "Buyers of one almost always buy the other. Push the bundle hardest. Father's Day is the untapped window — most kids' books market exclusively to moms.", "posts": {"instagram": {"awareness": {"hook": "The parent's answer to \"would you love me?\"", "body": "I Would Love You is the companion picture book — the parent's side of the conversation about unconditional love.\n\n📖 $9 at violettemeier.com.", "visual": "Both companion books side by side."}, "sales": {"hook": "$9. Or grab the pair for $16.", "body": "Would You Love Me? + I Would Love You. The set every nursery needs. violettemeier.com.", "visual": "Both books with a child's blanket."}, "engage": {"hook": "What's a promise you've made to your child that you intend to keep forever?", "body": "I want to hear.", "visual": "Quote card from the book."}, "event": {"hook": "Father's Day read-along live.", "body": "Dads welcome. Kids welcome. 10am EST.", "visual": "Author photo with the pair."}}, "tiktok": {"awareness": {"hook": "POV: you finally have the answer to your kid's biggest question.", "body": "Reads the central answer to camera.", "visual": "Face-cam with book."}, "sales": {"hook": "Two picture books. One conversation. $16 for the pair.", "body": "Hold up both. \"Link in bio.\"", "visual": "Face-cam with both books."}, "engage": {"hook": "What's the line in a kids' book that made YOU cry?", "body": "No shame. I cried at Love You Forever. Drop yours.", "visual": "Face-cam."}, "event": {"hook": "Father's Day live read-along.", "body": "Dads + kids welcome. Saturday morning.", "visual": "Text card."}}, "facebook": {"awareness": {"hook": "The companion to Would You Love Me? is finally out.", "body": "I Would Love You answers the question from the parent's side. Built to be read together, in bed, every night.\n\nviolettemeier.com.", "visual": "Both books on a nightstand."}, "sales": {"hook": "Pair them for $16.", "body": "Would You Love Me? + I Would Love You. Perfect for baby showers, birthdays, Father's Day. violettemeier.com.", "visual": "Both books with a \"set\" sticker."}, "engage": {"hook": "Dads of this group — a question.", "body": "What did your father say or do that you're still carrying? I built this book around exactly that.", "visual": "Quote card."}, "event": {"hook": "Father's Day live read-along event.", "body": "10am EST. Bring the kids. RSVP here.", "visual": "Event banner."}}}}};
+
+const PLATFORM_META = {
+  instagram: { name: 'Instagram', tag: 'tag-ig', color: 'var(--ig)', bg: 'var(--ig-bg)', text: 'var(--ig-text)' },
+  tiktok: { name: 'TikTok', tag: 'tag-tt', color: 'var(--tt)', bg: 'var(--tt-bg)', text: 'var(--tt-text)' },
+  facebook: { name: 'Facebook', tag: 'tag-fb', color: 'var(--fb)', bg: 'var(--fb-bg)', text: 'var(--fb-text)' }
+};
+
+const GOAL_LABELS = {
+  awareness: 'Build awareness',
+  sales: 'Drive sales',
+  engage: 'Spark conversation',
+  event: 'Promote event'
+};
+
+// ============ TABS ============
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+    if (tab.dataset.tab === 'analytics') renderAnalytics();
+  });
+});
+
+// ============ MODE TOGGLE ============
+let mode = 'demo';
+const modeBtn = document.getElementById('modeToggle');
+modeBtn.addEventListener('click', () => {
+  mode = (mode === 'demo') ? 'real' : 'demo';
+  modeBtn.textContent = (mode === 'demo') ? 'Demo mode' : 'Real numbers';
+  document.getElementById('realInputs').classList.toggle('visible', mode === 'real');
+  renderAnalytics();
+});
+document.getElementById('applyReal').addEventListener('click', renderAnalytics);
+
+// ============ COPY TOAST ============
+function toast(msg) {
+  const t = document.getElementById('copyToast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 1600);
+}
+
+// ============ LIBRARY ============
+function renderLibrary() {
+  const grid = document.getElementById('bookGrid');
+  grid.innerHTML = '';
+  const colors = ['#3C3489', '#72243E', '#085041', '#0C447C', '#633806', '#712B13', '#444441'];
+  Object.entries(BOOKS).forEach(([key, b], i) => {
+    const accent = colors[i % colors.length];
+    const card = document.createElement('div');
+    card.className = 'card clickable';
+    card.innerHTML = `
+      <div style="display: flex; justify-content: space-between; gap: 10px; margin-bottom: 6px;">
+        <strong style="font-size: 15px; line-height: 1.4;">${b.title}</strong>
+        <span style="font-size: 13px; color: var(--text-secondary); white-space: nowrap;">${b.price}</span>
+      </div>
+      <p style="margin: 0 0 10px; font-size: 12px; color: var(--text-tertiary);">${b.genre}</p>
+      <p style="margin: 0 0 12px; font-size: 14px; line-height: 1.5; font-style: italic;">${b.tagline}</p>
+      <span class="tag" style="background: ${accent}15; color: ${accent};">${b.audience.skew}</span>
+    `;
+    card.addEventListener('click', () => showBookDetail(key));
+    grid.appendChild(card);
+  });
+}
+
+function showBookDetail(key) {
+  const b = BOOKS[key];
+  const grid = document.getElementById('bookGrid');
+  const detail = document.getElementById('bookDetail');
+  grid.style.display = 'none';
+  detail.style.display = 'block';
+  detail.innerHTML = `
+    <button class="back-btn mode-toggle" onclick="backToLibrary()">← Back to library</button>
+
+    <div class="card" style="margin-bottom: 1.5rem;">
+      <h2 style="margin: 0 0 4px;">${b.title}</h2>
+      <p style="margin: 0 0 14px; color: var(--text-tertiary); font-size: 13px;">${b.genre} · ${b.price}</p>
+      <p style="margin: 0 0 16px; font-size: 16px; font-style: italic; color: var(--text-secondary); line-height: 1.6;">"${b.tagline}"</p>
+      <p style="margin: 0; font-size: 15px; line-height: 1.7;">${b.synopsis}</p>
+    </div>
+
+    <h3>Target audience</h3>
+    <div class="card">
+      <table class="info-table">
+        <tr><td>Age range</td><td>${b.audience.age}</td></tr>
+        <tr><td>Gender skew</td><td>${b.audience.skew}</td></tr>
+        <tr><td>Sweet spot</td><td>${b.audience.sweetSpot}</td></tr>
+        <tr><td>Psychographics</td><td>${b.audience.psycho}</td></tr>
+        <tr><td>Comp authors</td><td>${b.audience.comps}</td></tr>
+        <tr><td>Best platforms</td><td>${b.audience.platforms}</td></tr>
+      </table>
+    </div>
+
+    <h3>How to attract this audience</h3>
+    <div class="card">
+      <ul class="tactics">
+        ${b.tactics.map(t => `<li>${t}</li>`).join('')}
+      </ul>
+    </div>
+
+    <h3>The single biggest growth opportunity</h3>
+    <div class="growth-callout">${b.growth}</div>
+
+    <h3>Hashtag set</h3>
+    <p style="font-size: 13px; color: var(--fb); line-height: 1.8; margin: 0 0 1.5rem;">${b.hashtags}</p>
+
+    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+      <button class="btn-primary" style="width: auto; padding: 9px 18px;" onclick="goToContent('${key}')">Generate a post for this book →</button>
+    </div>
+  `;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function backToLibrary() {
+  document.getElementById('bookGrid').style.display = 'grid';
+  document.getElementById('bookDetail').style.display = 'none';
+  document.getElementById('bookDetail').innerHTML = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goToContent(bookKey) {
+  document.querySelector('[data-tab="content"]').click();
+  document.getElementById('bookSelect').value = bookKey;
+  generatePost();
+}
+
+// ============ CONTENT STUDIO ============
+function populateBookSelect() {
+  const sel = document.getElementById('bookSelect');
+  sel.innerHTML = '';
+  Object.entries(BOOKS).forEach(([k, b]) => {
+    const opt = document.createElement('option');
+    opt.value = k;
+    opt.textContent = b.title;
+    sel.appendChild(opt);
+  });
+}
+
+function generatePost() {
+  const bookKey = document.getElementById('bookSelect').value;
+  const platform = document.getElementById('platformSelect').value;
+  const goal = document.getElementById('goalSelect').value;
+  const book = BOOKS[bookKey];
+  const post = book.posts[platform][goal];
+  const meta = PLATFORM_META[platform];
+
+  const hashtags = platform === 'facebook' ? '' : book.hashtags;
+  const fullCaption = post.hook + '\n\n' + post.body + (hashtags ? '\n\n' + hashtags : '');
+
+  const out = document.getElementById('postOutput');
+  out.innerHTML = `
+    <div class="post">
+      <div class="post-header">
+        <div class="post-platform">
+          <span style="color: ${meta.color}; font-size: 18px;">●</span>
+          <span>${meta.name} · ${book.title}</span>
+        </div>
+        <span class="post-goal">${GOAL_LABELS[goal]}</span>
+      </div>
+      <p class="post-hook">${escapeHtml(post.hook)}</p>
+      <p class="post-body">${escapeHtml(post.body)}</p>
+      ${hashtags ? `<p class="post-hashtags">${escapeHtml(hashtags)}</p>` : ''}
+      <div class="post-visual">
+        <p class="label">Visual direction</p>
+        <p class="text">${escapeHtml(post.visual)}</p>
+      </div>
+      <div class="post-actions">
+        <button onclick="copyCaption(this, ${JSON.stringify(fullCaption).replace(/"/g, '&quot;')})">Copy caption</button>
+        <button onclick="copyText(this, ${JSON.stringify(post.visual).replace(/"/g, '&quot;')})">Copy visual brief</button>
+      </div>
+    </div>
+  `;
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function copyCaption(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    toast('Caption copied');
+    btn.textContent = 'Copied ✓';
+    setTimeout(() => btn.textContent = 'Copy caption', 1500);
+  });
+}
+function copyText(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    toast('Visual brief copied');
+    btn.textContent = 'Copied ✓';
+    setTimeout(() => btn.textContent = 'Copy visual brief', 1500);
+  });
+}
+
+document.getElementById('generateBtn').addEventListener('click', generatePost);
+document.getElementById('bookSelect').addEventListener('change', generatePost);
+document.getElementById('platformSelect').addEventListener('change', generatePost);
+document.getElementById('goalSelect').addEventListener('change', generatePost);
+
+// ============ ANALYTICS ============
+const demoData = {
+  instagram: { followers: 1240, engagement: 2.4, reach: 8200, posts: 18 },
+  tiktok:    { followers: 380,  engagement: 5.1, reach: 4500, posts: 9 },
+  facebook:  { followers: 4850, engagement: 1.2, reach: 6100, posts: 14 }
+};
+
+function currentData() {
+  if (mode === 'demo') return demoData;
+  return {
+    instagram: { ...demoData.instagram, followers: +document.getElementById('ig-f').value, engagement: +document.getElementById('ig-e').value },
+    tiktok:    { ...demoData.tiktok,    followers: +document.getElementById('tt-f').value, engagement: +document.getElementById('tt-e').value },
+    facebook:  { ...demoData.facebook,  followers: +document.getElementById('fb-f').value, engagement: +document.getElementById('fb-e').value }
+  };
+}
+
+function renderAnalytics() {
+  const data = currentData();
+  const platforms = [
+    { key: 'instagram', name: 'Instagram', color: 'var(--ig)' },
+    { key: 'tiktok',    name: 'TikTok',    color: 'var(--tt)' },
+    { key: 'facebook',  name: 'Facebook',  color: 'var(--fb)' }
+  ];
+
+  // Metric cards
+  document.getElementById('metricsGrid').innerHTML = platforms.map(p => {
+    const d = data[p.key];
+    return `
+      <div class="card">
+        <div class="pill-row"><span style="color: ${p.color}; font-size: 18px;">●</span><strong>${p.name}</strong></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="metric"><p class="metric-label">Followers</p><p class="metric-value">${Math.round(d.followers).toLocaleString()}</p></div>
+          <div class="metric"><p class="metric-label">Engagement</p><p class="metric-value">${d.engagement.toFixed(1)}%</p></div>
+          <div class="metric"><p class="metric-label">Reach (30d)</p><p class="metric-value">${Math.round(d.reach).toLocaleString()}</p></div>
+          <div class="metric"><p class="metric-label">Posts (30d)</p><p class="metric-value">${d.posts}</p></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Chart (pure CSS bars)
+  const maxEng = Math.max(data.instagram.engagement, data.tiktok.engagement, data.facebook.engagement, 6);
+  document.getElementById('chartWrap').innerHTML = platforms.map(p => {
+    const eng = data[p.key].engagement;
+    const widthPct = Math.round((eng / maxEng) * 100);
+    return `
+      <div class="bar-row">
+        <div>${p.name}</div>
+        <div class="bar-track"><div class="bar-fill" style="width: ${widthPct}%; background: ${p.color};"></div></div>
+        <div style="text-align: right; font-weight: 500;">${eng.toFixed(1)}%</div>
+      </div>
+    `;
+  }).join('');
+
+  // Recommendations
+  renderRecs(data);
+}
+
+function renderRecs(data) {
+  const recs = [];
+
+  if (data.instagram.engagement < 3) {
+    recs.push({ platform: 'Instagram', tag: 'tag-ig', title: 'Lean into reels, not static posts',
+      body: 'Engagement under 3% on IG usually means too many feed posts versus reels. Aim for 3 reels per week. Reels reach 2-4x more non-followers than static feed posts.' });
+  } else {
+    recs.push({ platform: 'Instagram', tag: 'tag-ig', title: 'Strong engagement — push for follower growth',
+      body: 'The audience is engaged. Collaborate with 2-3 bookstagrammers in the paranormal/Black SFF niche this month to expand reach.' });
+  }
+
+  if (data.tiktok.engagement >= 4) {
+    recs.push({ platform: 'TikTok', tag: 'tag-tt', title: 'TikTok is the fastest channel — double down',
+      body: 'Move to daily posting for 30 days. BookTok hooks, folklore explainers, and reading her own scenes aloud are the formats. This is where new readers find her.' });
+  } else {
+    recs.push({ platform: 'TikTok', tag: 'tag-tt', title: 'TikTok needs hook discipline',
+      body: 'The first 3 seconds decide everything. Open with a question, a contradiction, or a visual hook — never with "hi guys." Test 5 hook styles this week and track which gets past 50% watch-through.' });
+  }
+
+  if (data.facebook.engagement < 2) {
+    recs.push({ platform: 'Facebook', tag: 'tag-fb', title: 'Facebook needs community, not broadcast',
+      body: 'Engagement under 2% means the algorithm is suppressing reach. Stop linking out in the post body — put links in comments. Post 2x weekly with open-ended questions. Go live once a month. Join 3 ATL or Black SFF reader groups.' });
+  } else {
+    recs.push({ platform: 'Facebook', tag: 'tag-fb', title: 'Facebook engagement is healthy — convert to events',
+      body: 'Use Facebook Events for in-person Atlanta signings — RSVPs there convert 3x better than IG. Consider a private FB group for super-fans of the Angel Crush Saga.' });
+  }
+
+  recs.push({ platform: 'All platforms', tag: 'tag-neutral', title: 'Repurpose ruthlessly',
+    body: 'One core idea per week — film it once for TikTok, edit it into an IG reel, write the long-form version on Facebook. Three platforms, one hour of work.' });
+
+  document.getElementById('recsList').innerHTML = recs.map(r => `
+    <div class="rec">
+      <span class="rec-tag ${r.tag}">${r.platform}</span>
+      <h4>${r.title}</h4>
+      <p>${r.body}</p>
+    </div>
+  `).join('');
+}
+
+// ============ INIT ============
+renderLibrary();
+populateBookSelect();
+generatePost();
+renderAnalytics();
+</script>
+
+</body>
+</html>
